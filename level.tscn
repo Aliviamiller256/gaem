@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0u3ugescgn0j"]
+
+[ext_resource type="PackedScene" uid="uid://c3b6ph8kdqier" path="res://player.tscn" id="1_giuu1"]
+[ext_resource type="ArrayMesh" uid="uid://bt5n4cxkijml3" path="res://res/assets/bike/c5013874ec3d4d16af4167baec0b0ec4.obj" id="2_n4vdn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y1txu"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_curve = 0.655359
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sun_curve = 0.152869
+
+[sub_resource type="Sky" id="Sky_d4tga"]
+sky_material = SubResource("ProceduralSkyMaterial_y1txu")
+
+[sub_resource type="Environment" id="Environment_k8fq2"]
+background_mode = 2
+background_energy_multiplier = 1.48
+sky = SubResource("Sky_d4tga")
+tonemap_mode = 2
+ssr_enabled = true
+glow_enabled = true
+fog_sun_scatter = 0.4
+fog_sky_affect = 0.1
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.1
+volumetric_fog_albedo = Color(0.815686, 0.815686, 0.815686, 1)
+volumetric_fog_emission = Color(0.327639, 0.276685, 0.44647, 1)
+volumetric_fog_anisotropy = 0.4
+volumetric_fog_ambient_inject = 0.3
+volumetric_fog_sky_affect = 0.2
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_q8gsh"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_k8fq2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_color = Color(0.870588, 0.827451, 0.917647, 1)
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 1.5
+directional_shadow_blend_splits = true
+
+[node name="Player" parent="." instance=ExtResource("1_giuu1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.82707, 1.27641, 0.0662818)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player"]
+transform = Transform3D(-4.37114e-08, -0.309017, 0.951057, 0, 0.951057, 0.309017, -1, 1.35076e-08, -4.1572e-08, 0, 2.1025, 0)
+spring_length = 10.0
+
+[node name="Camera3D" type="Camera3D" parent="Player/SpringArm3D"]
+transform = Transform3D(1, 4.44089e-16, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 0, 10)
+fov = 80.0
+
+[node name="room" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2247, 2.62694, -0.926128)
+mesh = SubResource("TubeTrailMesh_q8gsh")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="room"]
+mesh = ExtResource("2_n4vdn")
